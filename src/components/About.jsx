@@ -7,8 +7,8 @@ export default function About() {
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
-     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-    // About cards
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+     // About cards
       fetch(`${BACKEND_URL}/about`)
       .then((res) => res.json())
       .then((data) => setCards(data))
