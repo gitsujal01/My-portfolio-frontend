@@ -4,7 +4,8 @@ export default function Work() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/projects") // Your Spring Boot endpoint
+     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+ fetch(`${BACKEND_URL}/projects`)
       .then((res) => res.json())
       .then((data) => setProjects(data))
       .catch((err) => console.log("Error fetching projects:", err));

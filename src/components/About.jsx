@@ -7,14 +7,15 @@ export default function About() {
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
+     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
     // About cards
-    fetch("http://localhost:8080/about")
+      fetch(`${BACKEND_URL}/about`)
       .then((res) => res.json())
       .then((data) => setCards(data))
       .catch((err) => console.log("About error", err));
 
     // Skills / Tools
-    fetch("http://localhost:8080/skills")
+      fetch(`${BACKEND_URL}/skills`)
       .then((res) => res.json())
       .then((data) => setTools(data))
       .catch((err) => console.log("Skills error", err));
