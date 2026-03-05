@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 
 export default function Contact() {
-  console.log("ENV:", import.meta.env);
 
   const [result, setResult] = useState("");
   const [emailError, setEmailError] = useState("");
+
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  }, []);
 
   const sendEmail = async (e) => {
     e.preventDefault();
@@ -29,15 +33,13 @@ export default function Contact() {
       const res = await emailjs.sendForm(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        e.target,
-        {
-          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-        }
+        e.target
       );
 
       console.log("EmailJS response:", res);
       setResult("Message sent successfully ✅");
       e.target.reset();
+
     } catch (err) {
       console.error("EmailJS error:", err);
       setResult("Failed to send message ❌");
@@ -51,8 +53,7 @@ export default function Contact() {
       </h2>
 
       <div className="grid md:grid-cols-2 gap-12">
-        
-        {/* Contact Form */}
+
         <form
           onSubmit={sendEmail}
           className="bg-white/5 backdrop-blur-md rounded-2xl p-10 border border-white/10 flex flex-col"
@@ -90,11 +91,11 @@ export default function Contact() {
             required
             placeholder="Your message"
             className="w-full mb-8 px-4 py-3 rounded bg-black/60"
-          ></textarea>
+          />
 
           <button
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 py-3 rounded font-semibold transition-colors"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 py-3 rounded font-semibold"
           >
             Send Message
           </button>
@@ -102,7 +103,6 @@ export default function Contact() {
           {result && <p className="mt-4 text-center">{result}</p>}
         </form>
 
-        {/* Contact Info */}
         <div className="flex flex-col items-center justify-center gap-8 text-center">
           <div className="flex items-center gap-4">
             <FaEnvelope /> sujallokhande23@gmail.com
@@ -121,7 +121,7 @@ export default function Contact() {
               href="https://github.com/gitsujal01"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-purple-400 transition-colors"
+              className="flex items-center gap-2 hover:text-purple-400"
             >
               <FaGithub /> GitHub
             </a>
@@ -130,7 +130,7 @@ export default function Contact() {
               href="https://linkedin.com/in/sujallokhande"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-purple-400 transition-colors"
+              className="flex items-center gap-2 hover:text-purple-400"
             >
               <FaLinkedin /> LinkedIn
             </a>
@@ -139,13 +139,15 @@ export default function Contact() {
               href="https://leetcode.com/u/Suja_l/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-purple-400 transition-colors"
+              className="flex items-center gap-2 hover:text-purple-400"
             >
               <SiLeetcode /> LeetCode
             </a>
           </div>
         </div>
+
       </div>
     </section>
-  );
+  );  
+  
 }
